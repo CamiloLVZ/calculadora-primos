@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
-@RestController("/servicio")
+
 public class CalcularPrimoController {
 
     @Autowired
     CalcularPrimoService calcularPrimoService;
 
-    @GetMapping("/{numero_cifras}")
+    @GetMapping("/servicio/{numero_cifras}")
     public String generarPrimo(@PathVariable int numero_cifras) {
         int id = calcularPrimoService.generarProceso(numero_cifras);
         return "<h2>Proceso generado con id #" + id + "</h2><p>Estado: Calculando...</p>" +
                 "<p>Consultar resultado: <a href=\"/servicio/status/" + id + "\" target=\"_blank\">/servicio/status/" + id + "</a></p>";
     }
 
-    @GetMapping("/status/{id}")
+    @GetMapping("/servicio/status/{id}")
     public String verProceso(@PathVariable int id) {
         Optional<Proceso> procesoOpt = calcularPrimoService.obtenerProceso(id);
         if (procesoOpt.isPresent()) {
@@ -36,7 +36,7 @@ public class CalcularPrimoController {
         }
     }
 
-    @GetMapping("/status")
+    @GetMapping("/servicio/status")
     public String listarProcesos() {
         return calcularPrimoService.listarProcesos();
     }
