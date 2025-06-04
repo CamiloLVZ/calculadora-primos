@@ -1,0 +1,33 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculadora-primos-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calculadora-primos
+  template:
+    metadata:
+      labels:
+        app: calculadora-primos
+    spec:
+      containers:
+        - name: calculadora-primos
+          image: calculadora-primos:latest
+          ports:
+            - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: calculadora-primos-service
+spec:
+  selector:
+    app: calculadora-primos
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
